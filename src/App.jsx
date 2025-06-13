@@ -84,7 +84,9 @@ function App() {
               Start Quiz
             </button>
           </div>
-        ) : questions.length > 0 ? (
+        ) : showScore ? (
+          <Result score={score} total={questions.length} />
+        ) : (
           <QuestionCard
             data={questions[currentQuestion]}
             onAnswer={handleAnswer}
@@ -94,8 +96,6 @@ function App() {
             timeLeft={timeLeft}
             disableOptions={disableOptions}
           />
-        ) : (
-          <p className="text-center">Loading questions...</p>
         )}
       </div>
     </div>
