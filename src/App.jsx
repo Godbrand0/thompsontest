@@ -11,6 +11,7 @@ function App() {
   const [showScore, setShowScore] = useState(false);
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
   const [disableOptions, setDisableOptions] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(15);
 
   useEffect(() => {
     fetch("https://api.jsonbin.io/v3/b/682b2a8f8960c979a59cdbef/latest")
@@ -18,6 +19,18 @@ function App() {
       .then((data) => setQuestions(data.record))
       .catch((err) => console.error("failed", err));
   }, []);
+
+  useEffect(() => {
+    if (showScore || selectedAnswer !== null) return;
+
+    if (timeLeft === 0) {
+      handleAnswer(null);
+      return;
+    }
+    const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
+
+    return () => clearTimeout(timer);
+  }, [timeLeft, showScore, selectedAnswer]);
 
   const handleAnswer = (selected) => {
     setSelectedAnswer(selected);
@@ -33,6 +46,7 @@ function App() {
       setSelectedAnswer(null);
       setIsAnswerCorrect(null);
       setDisableOptions(false);
+      setTimeLeft(15);
 
       if (currentQuestion + 1 < questions.length) {
         setCurrentQuestion((prev) => prev + 1);
@@ -56,6 +70,7 @@ function App() {
               total={questions.length}
               selectedAnswer={selectedAnswer}
               disableOptions={disableOptions}
+              timeLeft={timeLeft}
             />
           )
         ) : (

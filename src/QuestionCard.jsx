@@ -7,6 +7,7 @@ export default function QuestionCard({
   total,
   selectedAnswer,
   disableOptions,
+  timeLeft,
 }) {
   const handleClick = (choice) => {
     if (disableOptions) return;
@@ -28,6 +29,7 @@ export default function QuestionCard({
       <h2 className="text-2xl font-bold mb-4 text-gray-800">
         Question <span className="text-blue-600">{current}</span> of {total}
       </h2>
+      <p className="text-right text-sm text-gray-600">Time left: {timeLeft}s</p>
 
       <p className="mb-6 text-lg text-gray-700 font-medium">{data.question}</p>
 
